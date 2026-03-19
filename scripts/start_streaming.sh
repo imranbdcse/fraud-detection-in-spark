@@ -77,7 +77,7 @@ if ! command -v spark-submit &>/dev/null; then
 fi
 
 spark-submit \
-  --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.8 \
+  --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.8 \
   --properties-file "${PROJECT_ROOT}/env/spark_config.conf" \
   "${STREAMING_SCRIPT}" \
   --kafka_bootstrap "${KAFKA_BOOTSTRAP}" \

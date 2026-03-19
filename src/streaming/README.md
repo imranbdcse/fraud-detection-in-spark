@@ -37,7 +37,7 @@ Spark Structured Streaming (fraud_detector.py)
 
 ```bash
 spark-submit \
-    --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.8 \
+    --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.8 \
     --properties-file env/spark_config.conf \
     src/streaming/fraud_detector.py \
     --kafka_bootstrap localhost:9092 \
@@ -52,7 +52,7 @@ spark-submit \
 
 ```bash
 spark-submit \
-    --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.8 \
+    --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.8 \
     --properties-file env/spark_config.conf \
     src/streaming/fraud_detector_enhanced.py \
     --kafka_bootstrap localhost:9092 \
@@ -83,7 +83,7 @@ Stop all components gracefully:
 
 | Problem | Solution |
 |---|---|
-| `ClassNotFoundException: kafka...` | Ensure `--packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.8` is passed to `spark-submit`. |
+| `ClassNotFoundException: kafka...` | Ensure `--packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.8` is passed to `spark-submit`. |
 | `Connection refused` on Kafka | Verify Kafka is running: `kafka-topics.sh --list --bootstrap-server localhost:9092` |
 | Model not found | Run `python src/batch/train_model.py` to train and save the model first. |
 | Out of memory errors | Increase `spark.driver.memory` and `spark.executor.memory` in `env/spark_config.conf`. |

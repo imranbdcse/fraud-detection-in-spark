@@ -9,7 +9,7 @@ applies a trained ML model, and writes alerts to:
 
 Usage:
     spark-submit \\
-        --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.8 \\
+        --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.8 \\
         src/streaming/fraud_detector.py \\
         --model_dir models/ \\
         --checkpoint_dir /tmp/fraud_checkpoint
