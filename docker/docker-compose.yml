@@ -1,0 +1,105 @@
+# =============================================================================
+# docker-compose.yml
+# Orchestrates all services required for the fraud detection pipeline:
+#   - ZooKeeper
+#   - Kafka broker
+#   - Transaction producer (Python)
+#   - Spark Streaming job
+# =============================================================================
+
+version: "3.8"
+
+services:
+
+  # --------------------------------------------------------------------------
+  # ZooKeeper (required by Kafka)
+  # --------------------------------------------------------------------------
+  zookeeper:
+    image: confluentinc/cp-zookeeper:6.2.0
+    container_name: fraud_zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    healthcheck:
+      test: ["CMD", "bash", "-c", "echo ruok | nc localhost 2181 | grep imok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # --------------------------------------------------------------------------
+  # Kafka broker
+  # --------------------------------------------------------------------------
+  kafka:
+    image: confluentinc/cp-kafka:6.2.0
+    container_name: fraud_kafka
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    ports:
+      - "29092:29092"
+    healthcheck:
+      test: ["CMD", "kafka-topics", "--bootstrap-server", "localhost:9092", "--list"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+
+  # --------------------------------------------------------------------------
+  # Transaction producer
+  # --------------------------------------------------------------------------
+  producer:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: fraud_producer
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      KAFKA_BROKER: kafka:9092
+    command: >
+      python scripts/kafka_producer.py
+        --broker kafka:9092
+        --topic transactions
+        --rate 2
+        --fraud-ratio 0.05
+    restart: on-failure
+
+  # --------------------------------------------------------------------------
+  # Spark Streaming job
+  # --------------------------------------------------------------------------
+  spark_streaming:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: fraud_spark_streaming
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      KAFKA_BROKER: kafka:9092
+      ZOOKEEPER_QUORUM: zookeeper:2181
+    volumes:
+      - ../models:/app/models
+      - ../output:/app/output
+      - ../checkpoints:/app/checkpoints
+    command: >
+      spark-submit
+        --master local[*]
+        --packages org.apache.spark:spark-streaming-kafka-0-8_2.11:2.4.8
+        src/streaming/stream_processor.py
+          --topic transactions
+          --broker kafka:9092
+          --zk-quorum zookeeper:2181
+          --model-path models/logistic_regression_fraud_model
+          --output-path output/fraud_alerts
+    restart: on-failure
