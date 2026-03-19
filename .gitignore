@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+
+# Spark
+metastore_db/
+derby.log
+spark-warehouse/
+checkpoint/
+
+# Data files
+data/*.csv
+data/*.json
+data/*.parquet
+
+# Models
+models/*.pkl
+models/*.h5
+models/*.model
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+env/
+!env/spark_config.conf
+!env/config.env
