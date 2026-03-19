@@ -1,0 +1,78 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+*.pyo
+*.pyd
+.Python
+# Python virtual environments (common names)
+venv/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+pip-log.txt
+pip-delete-this-directory.txt
+.eggs/
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+.cache/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Spark
+spark-warehouse/
+derby.log
+metastore_db/
+*.crc
+_SUCCESS
+part-*
+
+# Models (save large model binaries separately)
+models/*.pkl
+models/*.bin
+models/*.parquet
+
+# Data files (usually large, managed separately)
+data/*.csv
+data/*.parquet
+data/*.json
+data/*.zip
+
+# Logs
+logs/
+*.log
+
+# Environment variables
+.env
+*.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Docker
+docker-compose.override.yml
+
+# Checkpoints (Spark Streaming)
+checkpoints/
