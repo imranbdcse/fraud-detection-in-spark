@@ -99,7 +99,7 @@ if [ ! -x "${SPARK_SUBMIT}" ]; then
   SPARK_SUBMIT="spark-submit"
 fi
 
-KAFKA_PACKAGE="org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.8"
+KAFKA_PACKAGE="org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0"
 
 log "Submitting Spark job: ${APP_NAME}"
 log "  Script  : ${DETECTOR_SCRIPT}"

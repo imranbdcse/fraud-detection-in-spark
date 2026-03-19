@@ -48,7 +48,7 @@ source env/config.env
 spark-submit \
     --name FraudDetector \
     --properties-file env/spark_config.conf \
-    --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.8 \
+    --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0 \
     src/streaming/fraud_detector.py
 ```
 
@@ -58,7 +58,7 @@ spark-submit \
 spark-submit \
     --name FraudDetectorEnhanced \
     --properties-file env/spark_config.conf \
-    --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.8 \
+    --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0 \
     src/streaming/fraud_detector_enhanced.py
 ```
 
@@ -110,7 +110,7 @@ spark-submit ... src/streaming/fraud_detector_enhanced.py
 |---------|-------------|-----|
 | `FileNotFoundError: Model not found` | Model not trained | Run `python src/batch/train_model.py` |
 | `Connection refused` to Kafka | Kafka not running | Start Zookeeper + Kafka broker |
-| `ClassNotFoundException` for Kafka connector | Missing `--packages` flag | Add `--packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.8` |
+| `ClassNotFoundException` for Kafka connector | Missing `--packages` flag | Add `--packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0` |
 | Checkpoint directory errors | Stale checkpoint state | Delete `/tmp/fraud_*_checkpoint` and restart |
 | Out-of-memory errors | Large micro-batches | Reduce `spark.executor.memory` or increase `trigger` interval |
 

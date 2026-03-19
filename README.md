@@ -107,7 +107,7 @@ chmod +x scripts/start_streaming.sh scripts/stop_streaming.sh
 
 # Or submit Spark job directly
 spark-submit \
-    --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.8 \
+    --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0 \
     --properties-file env/spark_config.conf \
     src/streaming/fraud_detector.py
 
