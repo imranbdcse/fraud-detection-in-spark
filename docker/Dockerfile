@@ -1,6 +1,6 @@
 # =============================================================================
 # Dockerfile
-# Containerises the fraud detection application with Python, PySpark 2.4,
+# Containerises the fraud detection application with Python, PySpark 3.5,
 # Kafka client libraries, and all project dependencies.
 # =============================================================================
 

@@ -91,7 +91,7 @@ start_spark_streaming() {
     log_info "Submitting Spark Streaming job..."
     "$SPARK_HOME/bin/spark-submit" \
         --master local[*] \
-        --packages org.apache.spark:spark-streaming-kafka-0-8_2.11:2.0.2 \
+        --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.8 \
         "$PROJECT_ROOT/src/streaming/stream_processor.py" \
         --topic "$KAFKA_TOPIC" \
         --broker "localhost:$KAFKA_PORT" \

@@ -1,8 +1,9 @@
 # fraud-detection-in-spark
 
-> **Real-time credit card fraud detection using Apache Spark 2.0, Kafka, and PySpark MLlib**
+> **Real-time credit card fraud detection using Apache Spark 3.5, Kafka, and PySpark MLlib**
 
 [![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/)
+[![PySpark 3.5.8](https://img.shields.io/badge/pyspark-3.5.8-orange.svg)](https://spark.apache.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ---
@@ -32,7 +33,7 @@
 This project demonstrates a **production-grade, real-time fraud detection pipeline** for credit card transactions. It uses:
 
 - **Apache Kafka** to ingest a continuous stream of synthetic transaction events.
-- **Apache Spark Streaming** (DStream API, compatible with Spark 2.x / 2.4) to consume, parse, and process the stream in micro-batches.
+- **Apache Spark Structured Streaming** (`readStream` / `writeStream.foreachBatch`) to consume, parse, and process the stream in micro-batches.
 - **Spark MLlib** (Logistic Regression with cross-validation) to classify each transaction as fraudulent or legitimate.
 - **Jupyter Notebooks** for interactive EDA and model training on the Kaggle Credit Card Fraud dataset.
 - **Docker Compose** to spin up all required services with a single command.
@@ -101,9 +102,9 @@ fraud-detection-in-spark/
 | Tool | Version |
 |------|---------|
 | Python | 3.8+ |
-| Apache Spark | 2.4.x (or 2.0+) |
+| Apache Spark | 3.5.x |
 | Apache Kafka | 2.x |
-| Java (JDK) | 8 or 11 |
+| Java (JDK) | 8, 11 or 17 |
 | Docker & Docker Compose | Latest |
 
 ---
@@ -180,11 +181,10 @@ python scripts/kafka_producer.py \
 ```bash
 spark-submit \
     --master local[*] \
-    --packages org.apache.spark:spark-streaming-kafka-0-8_2.11:2.4.8 \
+    --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.8 \
     src/streaming/stream_processor.py \
     --topic transactions \
     --broker localhost:9092 \
-    --zk-quorum localhost:2181 \
     --model-path models/logistic_regression_fraud_model \
     --output-path output/fraud_alerts
 ```
