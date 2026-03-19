@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/bin/
+env/lib/
+ENV/
+build/
+dist/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.idea/
+.vscode/
+
+# Spark
+metastore_db/
+derby.log
+spark-warehouse/
+
+# Generated data files
+data/creditcard.csv
+data/*.parquet
+
+# Saved models (generated artefacts)
+models/*.pkl
+models/*.h5
+models/metrics_*.json
+
+# Batch results
+batch_results/
+
+# Logs
+logs/
+*.log
+
+# PID files
+.pids/
+
+# Streaming checkpoints
+/tmp/
+
+# OS
+.DS_Store
+Thumbs.db
